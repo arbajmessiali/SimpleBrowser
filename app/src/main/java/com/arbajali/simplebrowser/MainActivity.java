@@ -1,6 +1,6 @@
 package com.arbajali.simplebrowser;
 
-import android.support.*;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -10,13 +10,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     String home_url = "https://cn.bing.com/?FORM=BEHPTB&ensearch=1";
-    private WebView mywebView;
+    private WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mywebView.loadUrl(home_url);
-        WebSettings webSettings= mywebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        webView = new WebView(this);
+        webView.loadUrl(home_url);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        this.setContentView(webView);
     }
 }
